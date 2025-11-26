@@ -13,7 +13,7 @@
 
 #include "Arduino.h"
 #include "DFRobot_RTU.h"
-#include "String.h"
+#include <String.h>
 #if defined(ARDUINO_AVR_UNO) || defined(ESP8266)
 #include "SoftwareSerial.h"
 #else
