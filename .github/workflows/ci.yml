@@ -132,7 +132,6 @@ jobs:
               exit $PYLINT_EXIT
             fi
 
-
       - name: Show neutral status
 
         run: |
@@ -194,7 +193,7 @@ jobs:
               exit 0
           fi
 
-          OUTPUT=$(clang-tidy $FILES -p . \
+          OUTPUT=$(clang-tidy $FILES -p .pio/build/mega2560 \
           -header-filter="$filter" \
           -config-file=./.github/config/.clang-tidy \
           2>&1 || true)
