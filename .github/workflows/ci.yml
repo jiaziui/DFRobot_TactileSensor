@@ -171,18 +171,23 @@ jobs:
           pip install platformio
           cp ./.github/config/platformio.ini .
         
-          DEPENDS=$(awk -F= '/^[[:space:]]*depends[[:space:]]*=/ {print $2; exit}' library.properties | tr -d '\r' | xargs)
+          # 提取 library.properties 中的 depends 字段
+          DEPENDS=$(awk -F= '/^[[:space:]]*depends[[:space:]]*=/ {print $2; exit}' library.properties | tr -d '\r')
+
           echo "Library dependencies found: $DEPENDS"
-          
-          # 检查 platformio.ini 是否已有 lib_deps 段
+
+          # 如果 platformio.ini 中没有 lib_deps 段，新增
           if ! grep -q 'lib_deps' platformio.ini; then
             echo "Adding lib_deps to platformio.ini"
-            echo "lib_deps =" >> platformio.ini
+            echo "lib_deps =" >> ./platformio.ini
           fi
 
-          # 将 depends 加入 lib_deps
-          for dep in $DEPENDS; do
-            echo "    $dep" >> platformio.ini
+          # 将每个依赖（逗号分隔）添加到 lib_deps，每行一个
+          echo "$DEPENDS" | tr ',' '\n' | while read dep; do
+              dep=$(echo $dep | xargs)  # 去掉首尾空格
+              if [ -n "$dep" ]; then
+                  echo "    $dep" >> platformio.ini
+              fi
           done
 
       - name: Generate compile_commands.json
