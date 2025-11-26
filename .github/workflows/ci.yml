@@ -171,10 +171,19 @@ jobs:
           pip install platformio
           cp ./.github/config/platformio.ini .
         
-      # - name: Install Project Libraries
-      #   run: | 
+          DEPENDS=$(awk -F= '/^[[:space:]]*depends[[:space:]]*=/ {print $2; exit}' library.properties | tr -d '\r' | xargs)
+          echo "Library dependencies found: $DEPENDS"
           
-      #     pio lib install
+          # 检查 platformio.ini 是否已有 lib_deps 段
+          if ! grep -q 'lib_deps' platformio.ini; then
+            echo "Adding lib_deps to platformio.ini"
+            echo "lib_deps =" >> platformio.ini
+          fi
+
+          # 将 depends 加入 lib_deps
+          for dep in $DEPENDS; do
+            echo "    $dep" >> platformio.ini
+          done
 
       - name: Generate compile_commands.json
         run: | 
