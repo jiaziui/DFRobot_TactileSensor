@@ -179,6 +179,7 @@ jobs:
       - name: Generate compile_commands.json
         run: | 
           pio run -t compiledb -v
+          ls -al .
 
 
       - name: Run clang-tidy
@@ -195,7 +196,7 @@ jobs:
               exit 0
           fi
 
-          OUTPUT=$(clang-tidy $FILES -p .pio/build/mega2560 \
+          OUTPUT=$(clang-tidy $FILES -p . \
           -header-filter="$filter" \
           -config-file=./.github/config/.clang-tidy \
           2>&1 || true)
