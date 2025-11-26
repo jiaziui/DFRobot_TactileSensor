@@ -178,9 +178,7 @@ jobs:
 
       - name: Generate compile_commands.json
         run: | 
-          pio run -t compiledb
-
-          ls -l .pio/build/mega2560/compile_commands.json
+          pio run -t compiledb -v
 
 
       - name: Run clang-tidy
