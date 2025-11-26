@@ -179,7 +179,6 @@ jobs:
       - name: Generate compile_commands.json
         run: | 
           pio run -t compiledb -v
-          cat ./compile_commands.json
 
 
       - name: Run clang-tidy
