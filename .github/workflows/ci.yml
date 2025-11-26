@@ -172,10 +172,10 @@ jobs:
           pip install platformio
           cp ./.github/config/platformio.ini .
         
-      - name: Install Project Libraries
-        run: | 
+      # - name: Install Project Libraries
+      #   run: | 
           
-          pio lib install
+      #     pio lib install
 
       - name: Generate compile_commands.json
         run: pio run -t compiledb
